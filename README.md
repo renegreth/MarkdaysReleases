@@ -5,7 +5,7 @@ Seneste testversion af Android-appen **Mærkedage** (fødselsdage og mærkedage 
 **Version:** 0.4.0 (build 4, 2026-11-04T17:36:00Z)
 
 ## ⬇️ Hent
-**[Markdays-latest.apk](https://github.com/renegreth/markdaysreleases/raw/main/Markdays-latest.apk)**
+**[Markdays-latest.apk](https://github.com/renegreth/MarkdaysReleases/raw/main/Markdays-latest.apk)**
 
 Linket peger altid på den nyeste version.
 
