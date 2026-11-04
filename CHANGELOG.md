@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.0] – 2026-11-04
+### Added
+- ⋮ → "Adjust widgets" (`TuneActivity`): per-phone sliders for small/wide widget size, calendar
+  sheet height, name text size, number size, emoji size, and placement (top/middle/bottom), with a
+  preview at the real widget size of this phone and immediate update of the home-screen widgets.
+  Replaces the old five-step "Widget size" menu. Included in backups (older backups still import).
+- Long names are first condensed (up to 15 % narrower) before the font is made smaller.
+- Tests: tuning survives backup round trip, old backups import, top/bottom placement,
+  taller sheet (watched failing with the height ignored), tuning screen opens.
+  `docs/tuning-compare.png`: default vs. tuned.
+
 ## [0.5.0] – 2026-11-04
 ### Added
 - Backup: ⋮ → Export backup / Import backup (JSON via Android's file picker: Drive, Downloads …).
