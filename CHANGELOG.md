@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.5.0] – 2026-11-04
+### Added
+- Backup: ⋮ → Export backup / Import backup (JSON via Android's file picker: Drive, Downloads …).
+  Carries every mark day with its look and the widget-size setting, so users can move to a
+  differently signed build (e.g. Google Play). Import can add (skipping days already present)
+  or replace all. Widget placements are not part of a backup (Android gives new widget ids).
+- "Show on a widget you already have": switch what an existing home-screen widget shows, from the
+  list (long-press) or the editor. Apps cannot choose the home-screen page for a new widget, so
+  placing widgets once and switching their content avoids dragging them across pages.
+- Tests: `BackupTest` (round trip of every field – watched failing with the template field removed –,
+  add-mode skips duplicates, no double seeding, invalid files rejected without data loss),
+  `ExistingWidgetTest`.
+
+## [0.4.0-signing] – 2026-11-04
+### Added
+- `scripts/publish-release.sh` refuses to publish an APK whose signing certificate is not the one
+  of the published 0.4.0 (SHA-256 `abdae94d…`); watched refusing a re-signed APK (exit 1).
+- Build uses `signing/markdays-test.keystore` when present. The key itself is **not** committed:
+  pending the owner's decision (blocked by the session's credential filter).
+
 ## [0.4.0] – 2026-11-04
 ### Added
 - Public test downloads: `scripts/publish-release.sh` builds, tests and publishes the APK to
