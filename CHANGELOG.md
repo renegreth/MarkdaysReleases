@@ -1,5 +1,112 @@
 # Changelog
 
+## [0.15.0] – 2026-11-05
+### Added
+- Eight new templates (small and wide), drawn in `widget/ExtraTemplates.kt`:
+  simple – Clean; special – Polaroid, Ticket, Arch, Neon; abstract – Blob, Shapes (Memphis), Aura.
+  Each has its own effect outline, so effects stay inside the reserved margin.
+- Nine new style ideas for them (Minimal, Memory, Travel, Sunset, Neon, Dream, Art, Bubbly, Garden).
+### Changed
+- Patterns are now scenes that rise from the bottom behind the number, in layers that fade upwards,
+  tinted from the day's colour (white tones on dark surfaces): Gradient, Waves, Hills, Mountains,
+  Clouds, Bubbles, Flowers, Hearts, Sprinkles, Stardust, Blobs. On the calendar sheet the scene rises
+  in the paper below the header. Old stored names map to the closest new one
+  (Dots → Bubbles, Stripes → Waves, Gingham → Hills).
+- The editor shows patterns as cards with the day drawn in each pattern.
+### Added (tests)
+- `patternsRiseFromTheBottom` (centre of every pattern in the lower part; watched failing with the
+  waves moved to the top), `everyTemplateLooksDifferent`; the edge audit now covers all 14 templates.
+- `docs/templates.png`, `docs/effects.png`, `docs/patterns-fonts.png` updated.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request); public link serves 0.10.0.
+
+## [0.14.0] – 2026-11-05
+### Fixed
+- Effects were cut off by the edge of the picture (most visibly in the app and on tight
+  launcher cells). Every effect now has a known margin (`Effects.margin`) that the renderer
+  reserves while the effect is shown, and the drawings stay inside it. Guarded by
+  `EffectAudit.effectsAreNeverCutByTheEdge` (all templates × effects, small and wide, at fill 100 %;
+  watched failing with the confetti margin removed).
+### Changed
+- Effects redrawn: confetti denser at the top, golden glow with a finer gold border, gold/white
+  sparkles, three drawn balloons tied to the corner (instead of emoji that were cut), hearts just
+  outside the edge, snow lying on the top edge with drips, a cleaner rainbow border.
+- Patterns redesigned to be subtle and laid out from the centre: Gradient, Dots, Sprinkles,
+  Stripes, Gingham, Waves, Hearts, Stars. "Lined" and "Squared" were removed (stored days fall back
+  to no pattern). Presets updated (Pastel: gradient, Party: sprinkles, Sea: waves, Cosy: dots).
+- `emojiStaysOnTopOfEffects` now compares renders with the same layout (an active effect shrinks
+  the drawing to make room); it still fails when an effect is drawn over the emoji.
+- `docs/effects.png`, `docs/patterns-fonts.png` updated.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request); public link serves 0.10.0.
+
+## [0.13.0] – 2026-11-05
+### Changed
+- Friendlier editor:
+  - The widget preview stays on screen; the form is split into tabs
+    (📝 Details · 🎨 Look · ✏️ Text · ✨ Decorate) with a short slide between them.
+  - Style ideas: ten complete looks in one tap (Classic, Pastel, Party, Elegant, Cosy, Christmas,
+    Love, Night, Sea, Retro), each previewed with the user's own day; "Reset look".
+  - Emoji suggestions per kind (and season for holidays) first, all emoji behind "Show all".
+  - Colours as one sideways-scrolling row instead of big grids; text colours explained.
+  - Only relevant switches: "follows Easter" for holidays, "show age" for birthdays/anniversaries,
+    no "year known" for one-time events.
+  - "Discard changes?" when closing (✕ or back) with unsaved changes; nothing is asked for an
+    untouched new day.
+  - Clear button texts: "Add mark day" / "Save changes"; new days get "Give it a look →";
+    home-screen actions only for saved days.
+### Added
+- Tests: presets apply and keep the day, relevant switches, discard guard (watched failing with
+  the check disabled), emoji suggestions, tabs keep the form. `docs/app-editor.png` shows every tab.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request); public link serves 0.10.0.
+
+## [0.12.0] – 2026-11-05
+### Changed
+- The whole app UI is rewritten in Jetpack Compose with Material 3 (BOM 2025.05.01) – the old
+  View screens (spinners, checkboxes, list dialogs) are gone. Data layer and widget renderer unchanged.
+  - Edge to edge, large rounded surfaces, Fredoka (bundled) for headlines, light/dark brand
+    scheme plus optional Material You colours from the wallpaper (Settings).
+  - Home: greeting, a big "Next up" card in the day's own colour with a number that counts up and
+    the widget tilted beside it, then the list grouped Soon / Within 30 days / Later / Passed with
+    countdown pills; collapsing large top bar; extended FAB that shrinks on scroll.
+  - Adding a day: bottom sheet with gradient tiles and one-tap holidays; confetti burst and a
+    snackbar (pin / undo). Long-press opens an actions sheet (existing widget, pin, edit, delete with undo).
+  - Editor: live preview on a soft wallpaper with the countdown sentence, section cards, filter
+    chips, switches, Material date picker, template and font cards that show the real result,
+    colour circles with checks, segmented buttons, haptic ticks, fixed Save button.
+  - Settings, widget tuning and widget picker in the same style; predictive back enabled;
+    themed (monochrome) launcher icon.
+- Editor logic moved into a plain `EditorForm` (unit tested).
+### Added
+- Tests: `EditorFormTest` (every kind of day survives the editor unchanged, defaults per kind,
+  one-time events keep their year); screenshots of all screens in light and dark
+  (`docs/app-screens.png`, `docs/app-editor.png`).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request); public link serves 0.10.0.
+
+## [0.11.0] – 2026-11-05
+### Added
+- Light and dark app theme (Material 3 colour scheme in raspberry/rose; `values-night`), chosen in
+  Settings: Auto (follow the phone) / Light / Dark (`AppTheme`, applied at start in `MarkdaysApp`).
+- Settings screen (gear in the top bar): theme, language, adjust widgets, backup export/import,
+  about with version and font licences. Replaces the old ⋮ menu.
+- New-day flow: "What do you want to celebrate?" sheet with Birthday / Anniversary / Holiday /
+  Event tiles and 10 one-tap holidays (Christmas Eve, New Year's Eve, Easter, Shrovetide,
+  Ascension, Whitsun, Midsummer Eve, Halloween, Valentine's Day, Father's Day); already added
+  ones are ticked. Each kind starts with fitting defaults (e.g. birthday: age + confetti on the
+  day; event: one-time + sparkle the last week) and its own name hint.
+- Editor in section cards (What, When, Template and colours, Text, Emoji and effect, Home screen),
+  a countdown sentence under the preview ("Clara turns 11 in 65 days"), the keyboard opens for
+  the name, Done opens the date picker, Save is always visible, and a new day asks for its date
+  instead of saying "turns 0 today".
+- After adding: "🎉 Clara added – in 65 days" with "📌 Home screen" (or Undo for one-tap holidays).
+- Friendly empty state; extended "New mark day" button that shrinks while scrolling.
+- `UiTest`: theme choice applied, holiday dates, kind defaults, settings opens; light/dark
+  screenshots via Robolectric (`docs/app-screens.png`).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request); public link serves 0.10.0.
+
 ## [0.10.0] – 2026-11-05
 ### Added
 - Text colours: "Text colour – name" and "Text colour – number", each Automatic (contrast, as before),
@@ -12,8 +119,8 @@
 - Tests: text colours appear (caught that Card drew the picked name colour semi-transparent),
   imported font used / missing font falls back (watched failing with custom fonts ignored),
   backup carries pattern, custom font and text colours.
-### Not published
-- Not uploaded to MarkdaysReleases (owner publishes only on request).
+### Published
+- Uploaded to MarkdaysReleases on the owner's request (2026-11-05).
 
 ## [0.9.0] – 2026-11-04
 ### Fixed
