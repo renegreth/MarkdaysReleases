@@ -1,5 +1,56 @@
 # Changelog
 
+## [0.10.0] – 2026-11-05
+### Added
+- Text colours: "Text colour – name" and "Text colour – number", each Automatic (contrast, as before),
+  14 presets or a custom colour. Picked colours are drawn fully opaque.
+- Other fonts: the phone's own system fonts that can write Danish letters (Android `SystemFonts`),
+  shown in their own font, and importing a .ttf/.otf file (copied into the app). Fonts installed via
+  Samsung's "font style" are private to Samsung and cannot be used by other apps.
+  A missing custom font falls back to the chosen built-in font; imported font files are not part
+  of a backup.
+- Tests: text colours appear (caught that Card drew the picked name colour semi-transparent),
+  imported font used / missing font falls back (watched failing with custom fonts ignored),
+  backup carries pattern, custom font and text colours.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.9.0] – 2026-11-04
+### Fixed
+- Effect borders were drawn over the emoji and clipped it. Emoji are now drawn last
+  (`emojiStaysOnTopOfEffects`, watched failing with the old order: 412 of 2607 emoji pixels covered).
+### Added
+- 13 more fonts: Medium, Extra bold and 11 bundled Google Fonts (SIL OFL 1.1, license in
+  `assets/licenses/OFL-fonts.txt`): Pacifico, Dancing Script, Lobster, Caveat, Comfortaa,
+  Playfair Display, Bebas Neue, Fredoka, Amatic SC, Righteous, Quicksand. Same look on every phone.
+- 11 more paper colours (18 in all) and paper patterns: dots, stripes, gingham, lined, squared,
+  hearts, stars – on every template's paper surface; included in "use on all" and backups.
+- `docs/patterns-fonts.png`.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.8.0] – 2026-11-04
+### Added
+- ⋮ → Language: Automatic (phone language) / Dansk / English. Uses AppCompat per-app locales
+  (on Android 13+ also in the phone's settings → Apps → Markdays → Language, via `locales_config.xml`).
+  Widgets, dates, country names and first-run example days ("Christmas Eve"/"Easter" or "Jul"/"Påske")
+  follow the choice (`Lang.localized`, since widgets are drawn outside activities).
+- `LangTest` (watched failing with the choice ignored).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request); public link still serves 0.6.0.
+
+## [0.7.0] – 2026-11-04
+### Added
+- All country flags as emoji: "🏳️ Flag" in the editor opens every ISO 3166 country (≈250) named in the
+  phone's language, with search. 🇩🇰 and a few celebration emoji added to the presets.
+- Effects per mark day: confetti, golden glow, sparkle, balloons, hearts, snow, rainbow border –
+  drawn along each template's outline – shown always, the last week, or only on the day.
+  The editor preview always shows the chosen effect. Overview: `docs/effects.png`.
+- Tests: flag codes/names/search, effect timing, every effect changes the drawing (and "none" does
+  not), backup carries effect settings.
+### Not published
+- Not uploaded to MarkdaysReleases: the owner publishes only on explicit request.
+
 ## [0.6.0] – 2026-11-04
 ### Added
 - ⋮ → "Adjust widgets" (`TuneActivity`): per-phone sliders for small/wide widget size, calendar
