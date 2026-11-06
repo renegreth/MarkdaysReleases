@@ -1,7 +1,7 @@
 {
-  "versionName": "0.15.3",
-  "versionCode": 18,
-  "sha256": "162356ea87b0ad0b451e8675796c84a0c6153c25a39e14ad5351b5fe40e4eb25",
-  "sourceCommit": "fccd78b",
-  "published": "2026-11-06T11:50:12Z"
+  "versionName": "0.17.0",
+  "versionCode": 20,
+  "sha256": "c679b2431be1c33b25cdac5e1e9191622241b7fa2da13805f4267e72ec642c6b",
+  "sourceCommit": "192f293",
+  "published": "2026-11-06T14:13:14Z"
 }
