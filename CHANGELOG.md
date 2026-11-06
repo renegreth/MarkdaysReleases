@@ -1,5 +1,45 @@
 # Changelog
 
+## [0.15.3] – 2026-11-05
+### Fixed
+- Snow on round shapes (Ring, Bubble, Arch, Blob) was a small lump on the very top. The cap is now
+  the shape lifted a little minus the shape pushed a little down – the crescent snow forms on a
+  ball: thickest on top, thinning down the curved sides, following any outline. Mounds and drips are
+  placed along the outline itself (PathMeasure) where it faces up, turned with the curve; drips are
+  fewer and rounder. A cool shade underneath keeps white snow visible on white shapes.
+### Added
+- Test `snowCoversTheTopOfTheShape`: the largest connected piece of snow must span at least 60 %
+  of the shape's width (single flakes do not count). It failed on the old snow for Ring, Bubble,
+  Arch and Blob (51–54 %) and passes now; `snowStaysWithinTheShape` and the edge audit still pass.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request); public link serves 0.15.0.
+
+## [0.15.2] – 2026-11-05
+### Fixed
+- Snow stuck out past the shape and floated as a dotted line above it. It is now the shape's own
+  top edge, lifted slightly and cut off with a soft wavy, dripping lower edge, so it follows rounded
+  corners, circles, the arch and the blob and is never wider than the shape; a soft lumpy ridge
+  (one union, no holes) on the flat part of the top; flakes fall only above the shape.
+  Minimal (no body) gets falling snow instead of a cap.
+- Effects now follow the exact shape of Arch, Blob and the tilted Polaroid (new `Outline.shape`),
+  so glow and rainbow borders hug them too.
+### Added
+- Test `snowStaysWithinTheShape` (all templates, small and wide; watched failing with the cap made
+  wider than the shape). `docs/snow.png` close-ups.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request); public link serves 0.15.0.
+
+## [0.15.1] – 2026-11-05
+### Fixed
+- The editor preview always drew the chosen effect, so a day with e.g. snow "only on the day" showed
+  snow in the preview but not on the home screen. The preview now shows exactly what the widget shows
+  today; an effect that comes later is explained underneath ("Snow shows on the day itself
+  (in 49 days)") with "See the day" to preview the day itself (number 0, effect on) and
+  "Back to today". Template thumbnails no longer force the effect either.
+- Test `effectsThatComeLaterAreExplainedNotShown`; screenshot test of the case.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request); public link serves 0.15.0.
+
 ## [0.15.0] – 2026-11-05
 ### Added
 - Eight new templates (small and wide), drawn in `widget/ExtraTemplates.kt`:
@@ -17,8 +57,8 @@
 - `patternsRiseFromTheBottom` (centre of every pattern in the lower part; watched failing with the
   waves moved to the top), `everyTemplateLooksDifferent`; the edge audit now covers all 14 templates.
 - `docs/templates.png`, `docs/effects.png`, `docs/patterns-fonts.png` updated.
-### Not published
-- Not uploaded to MarkdaysReleases (owner publishes only on request); public link serves 0.10.0.
+### Published
+- Uploaded to MarkdaysReleases on the owner's request (2026-11-05).
 
 ## [0.14.0] – 2026-11-05
 ### Fixed
