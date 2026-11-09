@@ -1,5 +1,371 @@
 # Changelog
 
+## [0.31.0] – 2026-11-09
+### Added (owner's request: "days" was very small)
+- Text size per day in the editor (Text → Text size): name, number, unit ("dage") and date, 70–160 %
+  in 5 % steps, with "Reset sizes". Multiplied with the phone's own tuning (Settings → widget
+  tuning). Text only grows as far as the template has room. Kept in backups; presets reset them;
+  "apply to all" copies them.
+### Fixed
+- Animated templates: when number and "dage" had to shrink together, the gap did not, so "dage"
+  could be cut to "da…". The gap now shrinks with them.
+- Ring (small): a bigger name grows its pill upwards instead of past the bottom edge.
+### Tests
+- `TextSizeTest`: every slider changes exactly the templates that show its text (small and wide);
+  a bigger "dage" is bigger; at 160 % nothing is cut at the widget's edge (it caught the Ring pill);
+  sizes multiply with tuning; sheets. Defaults pixel-identical to 0.27.0 (52 references).
+  `BackupTest` round trip and older backups. Watched failing, one at a time: unit ignored by
+  `roleScale`, sizes dropped from backups, animated templates ignoring the unit size.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.30.0] – 2026-11-09
+### Added (owner's wish, roadmap 0.30–0.36 in docs/ROADMAP.md)
+- "My colours": a colour made with the rainbow dialog is kept (newest first, at most 12, no
+  duplicates) and shown first in every colour picker – colour, second and third colour, name and
+  number colour – after a thin divider. Long-press asks to remove one. Kept in backups (merged on
+  import).
+### Tests
+- `MyColorsTest`: order/limit/no duplicates/remove; backup round trip; a colour made once in the
+  rainbow dialog shows in all five pickers. Watched failing, one at a time: dialog not saving,
+  pickers not showing my colours, import dropping them.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.29.0] – 2026-11-08
+### Added (owner's rule: three colours in every template)
+- Rule written down in the new `AGENTS.md`: every template, small and wide, uses colour, second
+  colour and third colour; kept by `AccentColourTest.everyTemplateUsesAllThreeColours`.
+- Second colour where a template has no paper (19 templates did nothing with it): the text on
+  Card, Bubble, Ticket, Minimal (name/date), Blob (small: the back blob, plus a third-colour edge on
+  the front blob) and the animated cards; Glass: the panel; Neon: the background (kept dark);
+  Photo: the shade (kept dark). White is automatic, so the look is unchanged until chosen.
+### Changed
+- Glass: the third colour is the rim and gloss (the panel moved to the second colour so a light
+  second colour never becomes unreadable text on the light panel).
+- Dark mode and the phone's colours leave the second colour alone where it is not paper
+  (`Template.secondIsPaper`); an explicit text colour still wins over it.
+- Editor hint for the second colour says what it does where there is no paper.
+### Tests
+- `everyTemplateUsesAllThreeColours`, `darkModeKeepsASecondColourThatIsText`, the Glass contrast
+  check on the second colour, a sheet of the 19 templates with four second colours. Auto/white
+  still pixel-identical to 0.27.0 (52 references). Watched failing, one at a time: Neon back to a
+  fixed background, dark mode darkening every second colour.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.28.1] – 2026-11-08
+### Added (owner's feedback on 0.28.0)
+- The third colour is in every template, so the choice is always shown:
+  - Calendar: an edge round the sheet; on the wide one the sticky note is the third colour (text
+    follows its contrast).
+  - Ring: an edge round the disc/card and the ring's track.
+  - Clean, Arch (small): an edge round the shape; Arch (wide): the window.
+  - Polaroid: a frame round the photo. Shapes: the big soft circle. Aura: the sheen.
+- Auto keeps every template pixel-identical to 0.27.0.
+### Tests
+- `AccentColourTest.everyTemplateHasAThirdColour` (replaces the exact-set check): every template,
+  small and wide, changes with a third colour. Watched failing with Clean's edge removed (it named
+  Clean small and wide). Wide sheet of all templates (`docs/accent-wide.png`).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.28.0] – 2026-11-08
+### Added (owner's feedback on 0.27.1)
+- "Third colour" (new `accentColor`, per day; Auto = white as before) paints the template's light
+  parts on its own: Bubble's circle (filled solid when chosen) and gloss, the shine on Card and the
+  animated cards, Glass's panel/gloss/rim/pattern, Minimal's and Photo's text, Ticket's perforation,
+  Neon's core line, Blob's back layer. Shown in the editor only for those templates.
+- Text on a filled third colour takes its own contrast (Bubble's number, Glass's text).
+- Kept in backups; older backups without it get Auto. "Apply to all" and presets carry/reset it.
+### Changed
+- "Second colour" is the template's background/paper again, as before 0.27.1 (0.27.1 had tied the
+  light parts to it, so in Bubble they could not differ from the background).
+### Tests
+- `AccentColourTest` (replaces `SecondColourTest`): the third colour changes exactly the templates
+  the editor offers it for, small and wide; red Bubble with red paper still gets its own circle and
+  paper does not move it; contrast of text on a light and a dark third colour; Auto pixel-identical
+  to 0.27.0 (52 references). `BackupTest`: round trip and older backups.
+- Watched failing on planted faults, one at a time: Bubble's circle on the second colour, the field
+  dropped from backups, Glass text ignoring contrast.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.27.1] – 2026-11-08
+### Changed (owner's feedback)
+- "Paper" is renamed "Second colour" and is now the secondary colour of every template (same stored
+  field, so saved days and backups are unchanged). Parts that were fixed white follow it: the shine
+  on Card and the animated templates' cards, Bubble's inner circle and gloss, Glass's panel, gloss,
+  rim and pattern, Minimal's text and line, Ticket's perforation, Neon's core line and texts, Blob's
+  back layer. A chosen colour shows as a clear accent; white keeps the exact old look.
+- Photo template: a light second colour colours the text; a dark one tints the shade under white
+  text instead, so the text always reads.
+- Editor: a short hint under "Second colour" says what it colours.
+### Tests
+- `SecondColourTest`: every template, small and wide, changes with a second colour other than white;
+  with white, 52 pictures are pixel-identical to references drawn by the old code; a sheet of all
+  templates in white and in blue (`docs/second-colour.png`). Watched failing with Bubble set back to
+  fixed white (it named Bubble small and wide).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.27.0] – 2026-11-08
+### Added (owner's request)
+- Filters on the main screen, from 5 mark days: chips "All (n)", "🎂 Birthdays (n)", "💞 Anniversaries",
+  "🎉 Holidays", "✈️ Events" (only kinds you have), and 🔍 for a search on name or emoji (case does
+  not matter). The chosen kind is remembered until changed; the counts follow the search. "No mark
+  days match" with "Clear filter" when nothing is left.
+### Tests
+- `ListFilterTest`: all, by kind, by name/emoji ignoring case, both together, chip counts follow the
+  search. Watched failing on planted faults (case-sensitive search, kind ignored, counts ignoring
+  the search). Main-screen screenshot with the chips.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.26.3] – 2026-11-08
+### Added (owner's feedback)
+- Turn the photo with two fingers (twist), per widget size like the framing. Within 3° of straight
+  (0/90/180/270°) it snaps to straight. Reset straightens it too. Where a turned photo does not
+  reach the corners, the day's colour shows. The adjust view shows zoom and angle ("1,0× · 15°").
+### Changed
+- The − and + buttons are gone from the adjust view: the owner only used fingers and Reset.
+### Tests
+- `PhotoFrameTest`: snapping, a turned photo is drawn differently and only inside the shape, bare
+  corners show the day's colour, small and wide turn on their own, older data carries the turn to
+  the wide one, no turn in backups. Watched failing on planted faults (no snap, wide using the small
+  turn, turn exported).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.26.2] – 2026-11-08
+### Changed (owner's feedback)
+- The small and the wide widget now each have their own photo framing (zoom and shift), since one
+  framing rarely suits both shapes. In the adjust view you drag and pinch on the widget you want to
+  change; −/+ and Reset act on the one touched last, which is outlined, and a line says which one.
+  Framings saved before start the wide widget from the small one's, so nothing jumps. Like the photo,
+  neither framing is in a backup.
+### Tests
+- `PhotoFrameTest`: each size ignores the other's framing and follows its own, older saved framings
+  carry over to the wide one, and no framing in backups. Watched failing on planted faults (wide
+  using the small framing, old data starting from the centre, wide framing exported).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.26.1] – 2026-11-08
+### Changed (owner's feedback with screenshots)
+- The photo could only move within its own overflow, so on the wide widget a face could not be moved
+  far enough to the right, and it could not be zoomed out. Now it follows the finger also past the
+  edge – its centre may go right up to the field's edge, so part of it always shows – and it zooms
+  from ½× to 4×. Where the photo does not reach, the day's colour shows (a gradient), never smeared
+  edge pixels: the photo is drawn once, clipped to the shape. Framings saved with 0.26.0 keep their
+  values under the new meaning, so a photo adjusted there may need adjusting again.
+### Tests
+- `PhotoFrameTest` reworked: the photo's centre never leaves the field (any zoom/shift), centred at
+  1× it still covers the field, shift ±½ puts the centre at the field's edge, ½× halves the scale,
+  the chosen half shows, and the day's colour shows where the photo does not reach. Watched failing
+  on planted faults (no shift limit, smeared edges, no zoom out).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.26.0] – 2026-11-08
+### Added
+- Adjust the photo (Look → Photo → Adjust): a full-screen view with the small and the wide widget,
+  large; drag to move the photo up, down and sideways, pinch to zoom (1–4×); −/+ and Reset as buttons.
+  One framing for both sizes, shown together. The photo always covers its field: the focus only moves
+  it within the overflow, so there is never an empty edge. A new photo starts centred at 1×.
+  `docs/photo-framing.png`.
+- Like the photo itself, the framing stays on the phone (not in backups).
+### Tests
+- `PhotoFrameTest`: the photo covers the field for every zoom and focus (also out-of-range values)
+  in all four photo fields; focus −1/1 shows the photo's edges, zoom 2× doubles the scale, drag and
+  pinch limits; the widget shows the chosen half of a red/blue photo; framing not in backups.
+  Watched failing on planted faults (no clamping, focus ignored, framing exported).
+### Not verified
+- On the phones: how dragging and pinching feel. The adjust view is a dialog window that the test
+  screenshots do not capture.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.25.1] – 2026-11-08
+### Fixed
+- Opening a day from a widget could trap you in the editor: the widget started a task holding only
+  the editor, so X/back went to the home screen and the app icon or Recents brought the same editor
+  back (only a force stop helped). Now every way in from outside – widget, list row, reminder,
+  "Open" in the day menu – opens the list with the editor on top in a fresh task: X, back and Save
+  return to the list, and the app opens normally afterwards.
+### Tests
+- `BackStackTest`: widget, list row, reminder and day menu all start [list, editor] in a fresh task
+  with the right day. Watched failing with the old editor-only widget tap.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.25.0] – 2026-11-08
+### Added
+- Five new animated templates: Candle (flickering flame and breathing glow, for memorial days), Sun
+  (pulsing rays, a drifting cloud), Easter egg (rocks and sways), Pumpkin (face glowing like a
+  candle, bobbing), Graduation cap (the Danish "studenterhue": white crown, red band, black visor –
+  tossed up, caught, settles). All with "how many times" variants. `docs/motif-frames.png`.
+### Tests
+- The existing motif audits cover the new pictures automatically, and caught real faults in the
+  first drawings before they were fixed: the pumpkin's animations did not fit one loop (so "3 times"
+  would have ended wrong), and Candle, Sun, Egg and Cap stood still at one of the test moments.
+  All 122 tests pass now, covering all eleven motifs.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.24.0] – 2026-11-08
+### Added
+- "Dark widgets in dark mode" (Settings → Widgets, off by default): light paper turns dark in dark
+  mode, the day's colour stays; the list widget gets a dark card. On Android 12+ each widget carries
+  a light and a dark picture and the launcher switches live with the phone; older Android uses the
+  mode at the last redraw.
+- "Use the phone's colours (Material You)" per day (Look → Colours, Android 12+): the phone's accent
+  and neutral colours instead of the day's own, light and dark. Picked up at the next redraw
+  (midnight or any change) after a new wallpaper. Carried in backups.
+### Tests
+- `DarkLookTest`: dark paper rule, the launcher shows the dark picture in dark mode (views applied in
+  a night configuration) and the same picture when switched off, dark list, phone colours only when
+  asked for; backup round trip. Watched failing on planted faults (only the light picture, dark mode
+  doing nothing, phone colours always on, field dropped from backups).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.23.0] – 2026-11-08
+### Added
+- Your own photo on a mark day (Look → Photo → Pick photo; the phone's photo picker, no permission).
+  Stored in the app's own folder, scaled down to at most 900 px.
+- Polaroid shows the photo in its picture area, white numbers over a soft shade.
+- New template "Photo": the photo fills the card, countdown and name in white over a shade (wide:
+  shade on the text side). Without a photo, a gradient in the day's colour. Picking a photo on another
+  template switches to Photo. `docs/photo.png`.
+- Photos stay on the phone: never in a backup (no field, file name or image data); restored days have
+  no photo and draw as without one. The export message says so. A replaced photo, a removed one and
+  a deleted day's photo are deleted at once; leftovers are cleaned up later.
+### Tests
+- `PhotoTest`: stored small (4000×3000 → 900), replaced/deleted photos removed, no photo in a backup
+  and the restored day still draws, photo inside the shape and never at the edge, white text readable
+  on a white photo. Watched failing on planted faults (photo in the export, no downscaling, photo not
+  clipped, no shade, photo left after deleting the day).
+### Moved
+- More motifs, Material You and dark mode move to 0.24 (roadmap).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.22.1] – 2026-11-08
+### Added
+- "What's new" button next to Settings on the main screen: the last 10 versions in plain words
+  (Danish/English), newest first, each with "Try:" – where to find it. A dot on the button until this
+  version's news has been opened. `docs/whats-new.png`.
+- The list lives in `ui/WhatsNew.kt` and must start with the app's own version: a test fails if
+  versionName is raised without a new entry.
+### Tests
+- `WhatsNewTest`: newest entry = versionName, ten versions newest first, both languages, the dot
+  goes away once opened (with screenshot). Watched failing with the list not updated.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.22.0] – 2026-11-08
+### Added
+- Optional time of day per mark day (Details, under the date; the phone's own time picker). The last
+  24 hours then count down to that time instead of to midnight: hours, and minutes (in 5s) in the
+  last hour; "Today!" from the moment itself. The date shows it: "lør. 21. nov. · 19:30".
+- Widgets redraw exactly when the countdown needs it: when it starts (24 h before), every full hour,
+  when the last hour begins, every 5 minutes in the last hour, and at the time itself; otherwise at
+  midnight as before. Still one inexact alarm (no exact-alarm permission). Carried in backups.
+### Changed
+- Days without a time also count minutes in the last hour before midnight ("30 min").
+### Tests
+- `TimeOfDayTest`: counting to the time (days → hours → minutes → today), midnight without a time,
+  the date with the time, every redraw moment; backup with time. Watched failing on planted faults
+  (counting to midnight, no minutes, no 5-minute redraws, time dropped from backups).
+### Not verified
+- On the phones: inexact alarms may come a few minutes late in battery saving, so the minutes can lag.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.21.0] – 2026-11-08
+### Added
+- "Browse the coming days": a small or wide widget that shows the next day per tap, round and
+  round; dots under the shape show where you are; back at the soonest day every new day. Offered when
+  placing a widget and in Settings → Widgets. Only the tapped widget changes.
+- On the day itself, tapping a widget opens a small menu: 📞 Call and 💬 Text (when the day has a
+  phone number), ✓ Celebrated, Open. Call opens the dial screen (no call permission), Text a new
+  message. One-time events have no "Celebrated".
+- Phone number per day (Details → Phone, optional), typed or picked with the system's contact
+  picker (only the chosen number is shared – no contacts permission). Carried in backups.
+- "✓ Celebrated" marks the day as done for this year: the widget shows next year's day (365 days)
+  and stops the party effect; the day after and next year are as always. Carried in backups.
+### Changed from the roadmap
+- No buttons laid over the widget picture (cannot be placed exactly on every launcher): the menu on
+  the day instead. No automatic flipping (one bitmap per day hits the widget memory limit): browse by tap.
+### Tests
+- `InteractionTest`: browsing order, wrap, reset each day, separate widgets; what each tap does (menu
+  on the day, editor otherwise, browse broadcast, unique per widget); menu items and dial/text
+  intents; celebrated rule; dots never cut. Backup round trip with phone and celebrated. Watched
+  failing on planted faults (no wrap, no daily reset, no menu, no celebrated rule, no room for the
+  dots, phone dropped from backups).
+### Not verified
+- No screenshot of the day menu (a dialog window Robolectric's screenshot does not capture).
+  Contact picker, dial/text screens and browsing to be checked on the phones.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.20.0] – 2026-11-08
+### Added
+- The day before, widgets count down in hours ("14 timer"); while a day is tomorrow they refresh
+  every full hour (one inexact alarm, otherwise still once at midnight). The list widget keeps days.
+- Dates show the weekday: "tors. 24. dec." (with the year when it is next year).
+- Round birthdays (10, 18, 20, 25, 30 … 75 …) get 🎉 after the age; wedding anniversaries 25 🥈,
+  40 ❤️, 50 🥇, 60 💎. On the day itself they get confetti (anniversaries: hearts) if no effect is
+  chosen. Also in the list widget and the reminders.
+- "Show how far it is to the day" (Decorate tab): a gold bar along the inside of the edge, as far
+  round as the wait is over. Not on Minimal (no body). `docs/progress.png`.
+### Tests
+- `WidgetExtrasTest`: hours on the last day, hourly refresh only the day before, weekday dates in
+  Danish/English, milestones and their automatic effect, the bar shows and never draws outside the
+  shape. Watched failing on planted faults (no hours, no hourly refresh, no automatic effect, bar
+  not clipped). An early edge check gave false alarms on the calendar's corners and was replaced by
+  the stricter "never outside the shape".
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.19.0] – 2026-11-08
+### Added
+- Morning reminders: a notification on the day ("🦄 Clara 11 – today!"), or also the day before
+  ("🎄 Jul – tomorrow"). Per day in the editor (Details → Reminder: off / on the day / also the day
+  before; default on the day). Switched on in Settings → Widgets (off until then; asks for the
+  notification permission on Android 13+), with the time 07/08/09/12/18:00 (default 08:00).
+- One inexact, doze-tolerant alarm a day (no exact-alarm permission), planned again after each run,
+  at midnight, after boot and on every widget refresh. Shown at most once a day. Tap opens the day.
+- Backups carry the per-day choice; older backups get "on the day".
+### Tests
+- `ReminderTest`: which days are due (today/tomorrow per choice), alarm time, only planned when
+  switched on, once a day, nothing without permission; backup round trip. Watched failing on
+  planted faults (day-before ignored, shown twice a day, planned while off, field dropped).
+### Not verified
+- On a phone: delivery on time with battery saving (inexact alarms may come a little late).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.18.0] – 2026-11-08
+### Added
+- "Always the next mark day": a small or wide widget can follow the calendar instead of one day.
+  It moves on to the next day by itself at midnight (today counts; passed one-time events never).
+  Offered first when placing a widget, and in Settings → Widgets to put one on the home screen.
+- List widget "Next mark days" (resizable, 3×2 by default): as many coming days as fit (1–6) –
+  emoji in the day's colour, name in the day's font (with age), weekday and date, days left, and a
+  "Today!" pill on the day. Drawn as one bitmap; a transparent tap area per row (same proportions)
+  opens that day, the title opens the app. In Settings → Widgets to put it on the home screen.
+- `docs/ROADMAP.md`: plan for the other widget ideas (notifications, hours on the last day, weekday,
+  progress ring, round birthdays, browse/quick actions/"celebrated", more motifs, own photo,
+  Material You, dark mode).
+### Tests
+- `ListWidgetTest`: next-day binding over time, soonest-first list, rows that fit, tap areas lie on
+  the drawn rows, each row's tap is its own intent, never cut by the edge. Watched failing on planted
+  faults (title tap area weight changed, passed events not filtered, rows sharing one intent).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
 ## [0.17.0] – 2026-11-06
 ### Added
 - "How many times" for animated templates: all the time (default, as before), once, 3 or 5 times.
@@ -23,8 +389,9 @@
   no hide/show).
 ### Not verified
 - Not seen on Samsung/Oppo: whether their launchers restart the picture on unlock as Android's code does.
-### Not published
-- Not uploaded to MarkdaysReleases (owner publishes only on request).
+### Published
+- Uploaded to MarkdaysReleases on the owner's request (2026-11-06); public link verified.
+- Owner confirmed on a OnePlus 11 and a Samsung S25 (2026-11-08): animations work.
 
 ## [0.16.0] – 2026-11-06
 ### Added
