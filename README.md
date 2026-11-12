@@ -2,7 +2,7 @@
 
 Seneste testversion af Android-appen **Mærkedage** (fødselsdage og mærkedage som widgets på hjemmeskærmen).
 
-**Version:** 0.31.0 (build 41, 2026-11-09T13:34:43Z)
+**Version:** 0.34.1 (build 45, 2026-11-12T17:26:57Z)
 
 ## ⬇️ Hent
 **[Markdays-latest.apk](https://github.com/renegreth/MarkdaysReleases/raw/main/Markdays-latest.apk)**

@@ -1,5 +1,73 @@
 # Changelog
 
+## [0.34.1] – 2026-11-11
+### Changed (owner's feedback: "vertical and horizontal look swapped")
+- The drawing was right ("↓ Lodret" ran top to bottom), but the words read both ways – a "vertical
+  gradient" can also mean a vertical split. The three choices are now small squares painted with the
+  day's two colours, labelled "Hjørne til hjørne", "Top til bund" and "Venstre til højre".
+- One rule for both: `GradientDir.weight()` is used by the widget blend and by the squares.
+### Tests
+- `GradientTest.directionsShowWhatTheySay`: on Neon (the owner's case) and Card, top-to-bottom
+  changes only top↔bottom and left-to-right only left↔right; the weight rule's ends. Watched failing
+  with the two directions swapped. A sheet of Neon in the three directions.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.34.0] – 2026-11-11
+### Added (roadmap round 2)
+- Look → Shape: corners (sharp / round / extra round) and "Visible background" 30–100 %.
+  - Opacity in one place: the day is drawn with and without text and emoji; where the two agree
+    it is the shape, which fades; where they differ it is text or emoji, which stays solid. Works
+    with a gradient too.
+  - Corners in one place (`widget/CornerScale.kt`): every rounded rectangle in the templates goes
+    through `drawRound`/`addRound`, which scale the radius for the drawing in progress; effect
+    outlines use the same scale, so the progress bar, snow and borders follow the new corners.
+  - Kept in backups, in "My styles" and "apply to all"; presets reset them.
+### Tests
+- `ShapeTest`: opacity and corners reach every template, small and wide (circles, blobs and shapes
+  already fully round are listed with the reason); the shape fades to half while the text stays
+  solid, also with a gradient; sharp corners are filled, extra round are empty; the progress bar
+  stays inside sharp and extra-round shapes; a sheet over a striped "wallpaper". Defaults
+  pixel-identical to 0.27.0. Watched failing, one at a time: everything fading, outlines ignoring
+  the corners (it named the Calendar), styles forgetting the opacity.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.33.0] – 2026-11-11
+### Added (roadmap round 2)
+- "My styles": "＋ Save as style" first in Look → Styles saves the day's whole look under a name
+  (template, colour and gradient, second/third colour, phone colours, pattern, fonts, text colours
+  and sizes, effect, animation, progress bar). Saved styles come first in the row with a preview;
+  one tap applies one to the day; long-press renames or deletes. The day's own name, date, kind,
+  emoji, photo, phone, time, reminder and "celebrated" always stay. Kept in backups; on import
+  they join the phone's styles (same name: the phone's own wins).
+- `data/Looks.kt`: the single list of what a "look" is; AGENTS.md says new look fields go there.
+### Tests
+- `StylesTest`: a reflection guard over every `Markday` field (look or the day's own – a new field
+  fails with its name until placed); a styled day draws exactly like the original's look; rename,
+  delete, replace; backup round trip and merge; the editor form applies and recognises a style.
+  Watched failing, one at a time: `withLookOf` forgetting the gradient, backups dropping styles,
+  an unplaced field. The editor dialogs themselves are not driven by a test (the form is).
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
+## [0.32.0] – 2026-11-11
+### Added (roadmap round 2)
+- Colour gradient: "Gradient to" under the colour (Auto = one colour; My colours included), with
+  diagonal / vertical / horizontal. Works in every template from one place: the day is drawn once
+  in each colour and the two are blended across the shape, so everything in the day's colour gets
+  the gradient and nothing else changes. Text is chosen against the middle of the gradient in both
+  drawings, so it never fades between white and dark. The phone's colours (Material You) replace
+  the gradient. Kept in backups; presets reset it; "apply to all" copies it.
+### Tests
+- `GradientTest`: every template changes, small and wide; both ends show in the chosen direction;
+  the three directions differ; steady text on a light→dark gradient; sheets. One colour stays
+  pixel-identical to 0.27.0 (52 references). `BackupTest` round trip and older backups. Watched
+  failing, one at a time: second drawing in the first colour, direction ignored, gradient dropped
+  from backups.
+### Not published
+- Not uploaded to MarkdaysReleases (owner publishes only on request).
+
 ## [0.31.0] – 2026-11-09
 ### Added (owner's request: "days" was very small)
 - Text size per day in the editor (Text → Text size): name, number, unit ("dage") and date, 70–160 %
@@ -16,8 +84,8 @@
   sizes multiply with tuning; sheets. Defaults pixel-identical to 0.27.0 (52 references).
   `BackupTest` round trip and older backups. Watched failing, one at a time: unit ignored by
   `roleScale`, sizes dropped from backups, animated templates ignoring the unit size.
-### Not published
-- Not uploaded to MarkdaysReleases (owner publishes only on request).
+### Published
+- Uploaded to MarkdaysReleases on the owner's request (2026-11-09); public APK checked identical.
 
 ## [0.30.0] – 2026-11-09
 ### Added (owner's wish, roadmap 0.30–0.36 in docs/ROADMAP.md)
